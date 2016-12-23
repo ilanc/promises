@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <script>
+        function closureTest() {
+            var x = 'before';
+            console.log(x);
+            
+            setTimeout(function() {
+                console.log('inside: ' + x); // after
+            }, 100);
+
+            x = 'after';
+            console.log(x);            
+        }
+
+        // Run
+        closureTest();
+    </script>
+</body>
+</html>

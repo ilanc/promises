@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+
+</head>
+<body>
+    <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+    <script>
+        // http://jsfiddle.net/dK9tc/
+        // http://stackoverflow.com/questions/16026942/how-do-i-chain-three-asynchronous-calls-using-jquery-promises
+        function first() {
+            return $.ajax({
+                url: 'test.json',
+                type: 'GET',
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function (data, textStatus, jqXHR) {
+                    console.log('first success');
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log('first error');
+                    console.log(jqXHR.getAllResponseHeaders());
+                    console.log(jqXHR, textStatus, errorThrown);
+                }
+            });
+        }
+
+        function second(data, textStatus, jqXHR) {
+            return $.ajax({
+                url: 'test.json',
+                type: 'GET',
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function (data, textStatus, jqXHR) {
+                    console.log('second success');
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log('second error');
+                    console.log(jqXHR.getAllResponseHeaders());
+                    console.log(jqXHR, textStatus, errorThrown);
+                }
+            });
+        }
+
+        function third(data, textStatus, jqXHR) {
+            return $.ajax({
+                url: 'test.json',
+                type: 'GET',
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function (data, textStatus, jqXHR) {
+                    console.log('third success');
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log('third error');
+                    console.log(jqXHR.getAllResponseHeaders());
+                    console.log(jqXHR, textStatus, errorThrown);
+                }
+            });
+        }
+
+        function main() {
+            first().then(second).then(third);
+        }
+
+        // Run
+        main();
+    </script>
+</body>
+</html>

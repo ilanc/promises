@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.2.3/sweetalert2.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.2.3/sweetalert2.js"></script>
+</head>
+<body>
+    <img src="../flow.png"/>
+    <script>
+        function Gender() {
+            swal({
+                title: 'Gender',
+                text: 'Are you male or female?',
+                type: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#1AB394',
+                confirmButtonText: 'Male',
+                cancelButtonColor: '#DD6B55',
+                cancelButtonText: 'Female'
+            }).then(function () {
+                // Male
+                Male();
+            }, function (dismiss) {
+                // Female
+                Female();
+            });
+        }
+
+        function Male() {
+            swal({
+                title: 'Result',
+                text: 'Option A',
+                type: 'info'
+            });
+        }
+
+        function Female() {
+            swal({
+                title: 'Children',
+                text: 'Do you have children?',
+                type: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#1AB394',
+                confirmButtonText: 'Yes',
+                cancelButtonColor: '#DD6B55',
+                cancelButtonText: 'No'
+            }).then(function () {
+                // Yes
+                Female_Children();
+            }, function (dismiss) {
+                // No
+                Female_NoChildren();
+            });
+        }
+
+        function Female_Children() {
+            swal({
+                title: 'Result',
+                text: 'Option B',
+                type: 'info'
+            });
+        }
+
+        function Female_NoChildren() {
+            swal({
+                title: 'Result',
+                text: 'Option C',
+                type: 'info'
+            });
+        }
+
+        function main() {
+            Gender();
+        }
+
+        // Run
+        main();
+    </script>
+</body>
+</html>

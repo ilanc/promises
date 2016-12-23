@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.2.3/sweetalert2.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/q.js/1.4.1/q.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.2.3/sweetalert2.js"></script>
+</head>
+<body>
+    <img src="../flow.png"/>
+    <script>
+        function Gender() {
+            var deferred = Q.defer();
+            swal({
+                title: 'Gender',
+                text: 'Are you male or female?',
+                type: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#1AB394',
+                confirmButtonText: 'Male',
+                cancelButtonColor: '#DD6B55',
+                cancelButtonText: 'Female'
+            }).then(function () {
+                // Male
+                deferred.resolve('male');
+            }, function (dismiss) {
+                // Female
+                deferred.resolve('female');
+            });
+            return deferred.promise;
+        }
+
+        function GenderResolved(val) { // Gender first level - note male already done at this depth, but must still be passed on to second level
+            var deferred = Q.defer();
+            if (val === 'male') {
+                deferred.resolve('male'); // NOTE: can resolve before promise returned
+            } else {
+                swal({
+                    title: 'Children',
+                    text: 'Do you have children?',
+                    type: 'info',
+                    showCancelButton: true,
+                    confirmButtonColor: '#1AB394',
+                    confirmButtonText: 'Yes',
+                    cancelButtonColor: '#DD6B55',
+                    cancelButtonText: 'No'
+                }).then(function () {
+                    // Yes
+                    deferred.resolve('female/children');
+                }, function (dismiss) {
+                    // No
+                    deferred.resolve('female/no children');
+                });
+            }
+            return deferred.promise;
+        }
+
+        function MaleDoneFemaleHasChildren(val) { // Gender second level
+            var deferred = Q.defer();
+            switch (val) {
+                case 'male':
+                    swal({
+                        title: 'Result',
+                        text: 'Option A',
+                        type: 'info'
+                    }).then(function () {
+                        // Yes
+                        deferred.resolve('male');
+                    });
+                    break;
+                
+                case 'female/children':
+                    swal({
+                        title: 'Result',
+                        text: 'Option B',
+                        type: 'info'
+                    }).then(function () {
+                        // Yes
+                        deferred.resolve('female/children');
+                    });
+                    break;
+                
+                case 'female/no children':
+                    swal({
+                        title: 'Result',
+                        text: 'Option C',
+                        type: 'info'
+                    }).then(function () {
+                        // Yes
+                        deferred.resolve('female/no children');
+                    });
+                    break;
+            }
+            return deferred.promise;
+        }
+
+        function main() {
+            Gender()
+                .then(GenderResolved)   // male line of questioning ends at first level
+                .then(MaleDoneFemaleHasChildren) // NOTE:  2nd level onwards can't use question name as function name - needs to handle two paths (male, and female in this case)
+                .done(function () {
+                    console.log('done');
+                });
+        }
+
+        // Run
+        main();
+    </script>
+</body>
+</html>
